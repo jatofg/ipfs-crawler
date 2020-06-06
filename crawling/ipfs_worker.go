@@ -71,7 +71,7 @@ type CrawlerConfig struct {
   NumPreImages int
 }
 
-func configure() CrawlerConfig {
+func Configure() CrawlerConfig {
 	var config CrawlerConfig
 	err := viper.Unmarshal(&config)
 	if err != nil {
@@ -131,8 +131,11 @@ type NodeKnows struct {
 // :param ctx: context that the new worker will be attached to
 // :return: fully initialized worker
 func NewIPFSWorker(id int, ctx context.Context) *IPFSWorker {
+	return NewIPFSWorkerWithConfig(id, ctx, Configure())
+}
+
+func NewIPFSWorkerWithConfig(id int, ctx context.Context, config CrawlerConfig) *IPFSWorker {
 	// ToDo: Not sure if we should 1) derive a new context 2) store the context
-	config := configure()
 	ctx, cancel := context.WithCancel(ctx)
 	w := &IPFSWorker{
 		id:            id,

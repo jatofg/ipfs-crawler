@@ -41,7 +41,7 @@ type CrawlManagerConfig struct {
     Sanity bool
 }
 
-func configureCrawlerManager() CrawlManagerConfig {
+func ConfigureCrawlerManager() CrawlManagerConfig {
     var config CrawlManagerConfig
     err := viper.Unmarshal(&config)
 	if err != nil {
@@ -104,6 +104,10 @@ type CrawlManagerV2 struct {
 }
 
 func NewCrawlManagerV2(queueSize int) *CrawlManagerV2 {
+	return NewCrawlManagerV2WithConfig(queueSize, ConfigureCrawlerManager())
+}
+
+func NewCrawlManagerV2WithConfig(queueSize int, config CrawlManagerConfig) *CrawlManagerV2 {
 	// concurrentRequests := 4096*2 // TODO: move to config
 	cm := &CrawlManagerV2{
 		ReportQueue:        make(chan CrawlResult, queueSize),
@@ -116,12 +120,11 @@ func NewCrawlManagerV2(queueSize int) *CrawlManagerV2 {
 		quitMsg:            make(chan bool),
 		Done:               make(chan bool),
 		startTime:          time.Now(),
+		config:             config,
 	}
 	// for i := 1; i <= concurrentRequests; i++ {
 	// 	cm.tokenBucket <- true
 	// }
-	config := configureCrawlerManager()
-	cm.config = config
 	return cm
 }
 
