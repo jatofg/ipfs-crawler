@@ -4,16 +4,16 @@ import (
 	"context"
 	"fmt"
 
-	utils "ipfs-crawler/common"
+	dht "github.com/jatofg/go-libp2p-kad-dht"
 	libp2p "github.com/libp2p/go-libp2p"
 	host "github.com/libp2p/go-libp2p-core/host"
 	pb "github.com/libp2p/go-libp2p-kad-dht/pb"
-	dht "github.com/scriptkitty/go-libp2p-kad-dht"
+	utils "ipfs-crawler/common"
 
 	// "github.com/ipfs/go-datastore"
 	"math/rand"
-	"time"
 	"os"
+	"time"
 
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/network"
